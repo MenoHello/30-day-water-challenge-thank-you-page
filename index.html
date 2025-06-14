@@ -6,21 +6,33 @@
   <title>You’re In! 💧</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* Universal box-sizing for consistent layout, including padding and border in element's total width */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #ffe9e5;
       color: #333;
-      padding: 40px 20px;
+      margin: 0; /* Remove default body margin */
+      padding: 0; /* Remove default body padding */
       text-align: center;
-      overflow-x: hidden;
+      overflow-x: hidden; /* Prevent horizontal scrollbar on smaller screens */
+      min-height: 100vh; /* Ensure body takes full viewport height */
+      display: flex; /* Use flexbox to center content vertically and horizontally */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .container {
-      max-width: 600px;
-      margin: auto;
+      width: 90%; /* Take up 90% of the viewport width */
+      max-width: 600px; /* Sets a maximum width for larger screens */
+      margin: 20px auto; /* Adds vertical margin and centers horizontally */
       background: #fff;
       border-radius: 24px;
-      padding: 40px 20px;
+      padding: 30px 15px; /* Adjusts horizontal padding for better mobile viewing */
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
       position: relative;
       z-index: 2;
@@ -28,11 +40,13 @@
 
     h1 {
       color: #ffa798;
-      font-size: 2rem;
+      /* Responsive font size: minimum 1.5rem, scales with viewport width up to 5vw, maximum 2rem */
+      font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
     p {
-      font-size: 1.1rem;
+      /* Responsive font size: minimum 1rem, scales with viewport width up to 3vw, maximum 1.1rem */
+      font-size: clamp(1rem, 3vw, 1.1rem);
       margin: 20px 0;
     }
 
@@ -54,36 +68,48 @@
 
     .share-box {
       background-color: #fff;
-      padding: 0em;
+      padding: 1rem; /* Adds internal padding to the share box */
       text-align: center;
       border-radius: 12px;
-      max-width: 700px;
-      margin: 2em auto;
+      width: 90%; /* Takes up 90% of the viewport width */
+      max-width: 700px; /* Sets a maximum width for larger screens */
+      margin: 2em auto; /* Centers horizontally with vertical margin */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Lighter shadow for share box */
     }
 
     .share-box p {
       margin: 0 auto 1.5em;
-      max-width: 600px;
+      max-width: 600px; /* Limits the text width within the share box */
       color: #555;
+      /* Responsive font size for share box paragraphs */
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
 
     .share-links {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.5em;
+      flex-wrap: wrap; /* Allows share buttons to wrap onto new lines on smaller screens */
+      gap: 0.75em; /* Creates space between share buttons */
       margin-bottom: 1.2em;
     }
 
     .share-links a, .share-links button {
-      padding: 0.5em 1em;
-      border-radius: 6px;
+      padding: 0.75em 1.25em; /* Increases padding for better touch targets on mobile */
+      border-radius: 8px; /* Slightly more rounded corners for buttons */
       font-family: 'Poppins', sans-serif;
       color: white;
       text-decoration: none;
       font-weight: 500;
       border: none;
       cursor: pointer;
+      flex-grow: 1; /* Allows buttons to grow and fill available space on small screens */
+      min-width: 100px; /* Ensures a minimum width for buttons */
+    }
+    /* Media query to prevent buttons from excessively stretching on wider screens */
+    @media (min-width: 480px) {
+        .share-links a, .share-links button {
+            flex-grow: 0; /* Disables flex-grow on screens wider than 480px */
+        }
     }
 
     .facebook { background-color: #3b5998; }
@@ -92,7 +118,8 @@
     .copy { background-color: #9b6bae; }
 
     .small-note {
-      font-size: 0.9em;
+      /* Responsive font size for small notes */
+      font-size: clamp(0.8em, 2.2vw, 0.9em);
       color: #777;
     }
 
@@ -135,20 +162,20 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     // Confetti celebration 🎉
-    const duration = 1 * 1000;
+    const duration = 3 * 1000;
     const end = Date.now() + duration;
 
     (function frame() {
       confetti({
         particleCount: 4,
-        angle: 100,
+        angle: 60,
         spread: 360,
         origin: { x: 0 },
       });
       confetti({
         particleCount: 4,
         angle: 100,
-        spread: 360,
+        spread: 55,
         origin: { x: 1 },
       });
 
@@ -157,14 +184,32 @@
       }
     })();
 
-    // Copy link to clipboard
+    // Copy link to clipboard function
     function copyLink() {
       const url = 'https://menohello.com/water-challenge';
-      navigator.clipboard.writeText(url).then(() => {
-        document.getElementById('copy-msg').innerText = 'Link copied to clipboard!';
-      }, () => {
-        document.getElementById('copy-msg').innerText = 'Oops! Could not copy the link.';
-      });
+      const copyMsgElement = document.getElementById('copy-msg');
+
+      // Create a temporary input element to hold the text to be copied
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      document.body.appendChild(tempInput); // Append to body to make it selectable
+      tempInput.select(); // Select the text in the input field
+
+      try {
+        // Execute the copy command
+        const successful = document.execCommand('copy');
+        if (successful) {
+          copyMsgElement.innerText = 'Link copied to clipboard!';
+        } else {
+          copyMsgElement.innerText = 'Oops! Could not copy the link.';
+        }
+      } catch (err) {
+        // Fallback for any errors during copying
+        copyMsgElement.innerText = 'Oops! Could not copy the link.';
+      } finally {
+        // Remove the temporary input element
+        document.body.removeChild(tempInput);
+      }
     }
   </script>
 </body>
