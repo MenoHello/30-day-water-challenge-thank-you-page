@@ -155,7 +155,7 @@
         <button class="copy" onclick="copyLink()">Copy Link</button>
       </div>
       <p id="copy-msg" class="small-note"></p>
-      <p class="small-note">Want to share on Instagram? Copy the link and add it to your Story or bio!</p>
+      <p class="small-note">Want to share on Instagram? Copy the link and add it to your Story.</p>
     </div>
   </div>
 
@@ -166,17 +166,19 @@
     const end = Date.now() + duration;
 
     (function frame() {
+      // Confetti falling from the top-left portion of the screen
       confetti({
-        particleCount: 4,
-        angle: 60,
-        spread: 360,
-        origin: { x: 0 },
+        particleCount: 2, // Reduced number of particles
+        angle: 90,        // Angle directly downwards
+        spread: 90,       // Spread outwards from the top
+        origin: { x: 0.2, y: 0 }, // Origin from the top-left
       });
+      // Confetti falling from the top-right portion of the screen
       confetti({
-        particleCount: 4,
-        angle: 100,
-        spread: 55,
-        origin: { x: 1 },
+        particleCount: 3, // Reduced number of particles
+        angle: 90,        // Angle directly downwards
+        spread: 90,       // Spread outwards from the top
+        origin: { x: 0.8, y: 0 }, // Origin from the top-right
       });
 
       if (Date.now() < end) {
