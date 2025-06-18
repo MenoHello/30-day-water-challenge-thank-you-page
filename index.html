@@ -22,7 +22,7 @@
       min-height: 100vh; /* Ensure body takes full viewport height */
       display: flex; /* Use flexbox to center content vertically and horizontally */
       flex-direction: column;
-      justify-content: flex-start; /* Changed to flex-start to allow content to flow naturally */
+      justify-content: center;
       align-items: center;
     }
 
@@ -65,39 +65,6 @@
     a.button:hover {
       background-color: #ffd2cb;
     }
-
-    /* --- NEW CSS for Responsive PDF Embed --- */
-    .pdf-embed-wrapper {
-      position: relative;
-      /* This percentage maintains the aspect ratio.
-         For a standard portrait letter/A4 document (ratio ~0.77),
-         height/width * 100% = 1.294 * 100% = 129.4%
-         Let's assume a typical portrait ratio for your guide, like 4:3 landscape would be 75%,
-         so for portrait, a good general value might be 150% (for 2:3 aspect) or even 129% for A4.
-         Adjust `padding-bottom` if your PDF has a different aspect ratio.
-         You might need to open your PDF and check its dimensions (e.g., 8.5in x 11in).
-         11 / 8.5 * 100 = 129.41%
-      */
-      padding-bottom: 129.41%; /* Adjust this based on your PDF's actual aspect ratio (height / width * 100%) */
-      height: 0;
-      overflow: hidden;
-      max-width: 100%; /* Ensure it doesn't exceed its parent container */
-      margin: 30px auto; /* Add some margin around the PDF */
-      border: 1px solid #ddd; /* Optional: add a border around the PDF */
-      border-radius: 8px; /* Optional: round corners */
-    }
-
-    .pdf-embed-wrapper iframe,
-    .pdf-embed-wrapper embed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    /* --- END NEW CSS --- */
-
 
     .share-box {
       background-color: #fff;
@@ -176,9 +143,8 @@
 
     <p>If you opted-in for weekly hydration check-ins, keep an eye on your inbox for weekly tips and check-ins to help keep your cup (and your motivation) full. But if you’re ready to dive in right now…</p>
 
-    <div class="pdf-embed-wrapper">
-      <iframe src="https://px-files.pixpa.com/817835/1749925320027-6431.pdf" frameborder="0"></iframe>
-      </div>
+    <a href="https://px-files.pixpa.com/817835/1749925320027-6431.pdf" class="button">Download Your Guide</a>
+
     <p style="margin-top: 40px;">Need an accountability buddy? Forward this challenge to a friend who could use a little more H<sub>2</sub>Ohhh in their life.</p>
 
     <div class="share-box">
