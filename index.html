@@ -19,11 +19,13 @@
       padding: 0; /* Remove default body padding */
       text-align: center;
       overflow-x: hidden; /* Prevent horizontal scrollbar on smaller screens */
-      min-height: 100vh; /* Ensure body takes full viewport height */
-      display: flex; /* Use flexbox to center content vertically and horizontally */
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      /* min-height: 100vh; */ /* REMOVED: This combined with flexbox centering can cause issues */
+      /* display: flex; */ /* REMOVED: Revert to default block display for easier scrolling */
+      /* flex-direction: column; */ /* REMOVED */
+      /* justify-content: center; */ /* REMOVED */
+      /* align-items: center; */ /* REMOVED */
+      /* The default block display will allow native scrolling if content overflows */
+      /* Horizontal centering for the .container will still be handled by its 'margin: 20px auto;' */
     }
 
     .container {
